@@ -33,13 +33,39 @@ body {
 .game-panel h1 {
   margin: 0 0 1rem;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  color: #fff7da;
+  text-shadow: 0 2px 0 #8a6d2b, 0 8px 18px rgba(0, 0, 0, 0.45);
 }
 
 #board {
   border: 3px solid #475569;
   border-radius: 8px;
   background: #0f172a;
+}
+
+.mobile-controls {
+  display: none;
+  margin-top: 0.8rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.mobile-controls button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0.65rem 0.3rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff8e6;
+  background: linear-gradient(180deg, #7c5f2d, #5d4720);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.mobile-controls button:active {
+  transform: translateY(1px) scale(0.98);
 }
 
 .info-panel {
@@ -132,5 +158,9 @@ body {
 
   .info-panel {
     width: min(300px, 90vw);
+  }
+
+  .mobile-controls {
+    display: grid;
   }
 }
