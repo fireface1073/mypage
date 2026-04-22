@@ -1,63 +1,53 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/index.html b/index.html
-new file mode 100644
-index 0000000000000000000000000000000000000000..185c71f7204738c396f3e8a31f93ef4f85387353
---- /dev/null
-+++ b/index.html
-@@ -0,0 +1,53 @@
-+<!doctype html>
-+<html lang="ko">
-+  <head>
-+    <meta charset="UTF-8" />
-+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-+    <title>갈릭톤 테트리스</title>
-+    <link rel="stylesheet" href="style.css" />
-+  </head>
-+  <body>
-+    <main class="container">
-+      <section class="game-panel">
-+        <h1>갈릭톤 테트리스</h1>
-+        <canvas id="board" width="300" height="600" aria-label="갈릭톤 테트리스 게임 보드"></canvas>
-+      </section>
-+
-+      <aside class="info-panel">
-+        <div class="card">
-+          <h2>점수</h2>
-+          <p id="score">0</p>
-+        </div>
-+        <div class="card">
-+          <h2>레벨</h2>
-+          <p id="level">1</p>
-+        </div>
-+        <div class="card">
-+          <h2>제거한 줄</h2>
-+          <p id="lines">0</p>
-+        </div>
-+        <div class="card">
-+          <h2>다음 블록</h2>
-+          <canvas id="next" width="120" height="120" aria-label="다음 블록 미리보기"></canvas>
-+        </div>
-+        <div class="card controls">
-+          <h2>조작법</h2>
-+          <ul>
-+            <li>← / → : 이동</li>
-+            <li>↓ : 빠르게 내리기</li>
-+            <li>↑ : 회전</li>
-+            <li>스페이스 : 즉시 내리기</li>
-+            <li>P : 일시정지</li>
-+          </ul>
-+        </div>
-+        <button id="restart" type="button">다시 시작</button>
-+      </aside>
-+    </main>
-+
-+    <div id="overlay" class="overlay hidden" role="status" aria-live="polite">
-+      <p id="overlay-text"></p>
-+    </div>
-+
-+    <script src="script.js"></script>
-+  </body>
-+</html>
- 
-EOF
-)
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>갈릭톤 테트리스</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="game-panel">
+        <h1>갈릭톤 테트리스</h1>
+        <canvas id="board" width="300" height="600" aria-label="갈릭톤 테트리스 게임 보드"></canvas>
+      </section>
+
+      <aside class="info-panel">
+        <div class="card">
+          <h2>점수</h2>
+          <p id="score">0</p>
+        </div>
+        <div class="card">
+          <h2>레벨</h2>
+          <p id="level">1</p>
+        </div>
+        <div class="card">
+          <h2>제거한 줄</h2>
+          <p id="lines">0</p>
+        </div>
+        <div class="card">
+          <h2>다음 블록</h2>
+          <canvas id="next" width="120" height="120" aria-label="다음 블록 미리보기"></canvas>
+        </div>
+        <div class="card controls">
+          <h2>조작법</h2>
+          <ul>
+            <li>← / → : 이동</li>
+            <li>↓ : 빠르게 내리기</li>
+            <li>↑ : 회전</li>
+            <li>스페이스 : 즉시 내리기</li>
+            <li>P : 일시정지</li>
+          </ul>
+        </div>
+        <button id="restart" type="button">다시 시작</button>
+      </aside>
+    </main>
+
+    <div id="overlay" class="overlay hidden" role="status" aria-live="polite">
+      <p id="overlay-text"></p>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
