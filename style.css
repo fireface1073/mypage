@@ -1,0 +1,126 @@
+:root {
+  --bg: #121826;
+  --panel: #1f2937;
+  --accent: #38bdf8;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at top, #1d4e89, var(--bg));
+  color: var(--text);
+  font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+}
+
+.container {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.game-panel h1 {
+  margin: 0 0 1rem;
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+#board {
+  border: 3px solid #475569;
+  border-radius: 8px;
+  background: #0f172a;
+}
+
+.info-panel {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card {
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.card p {
+  margin: 0.45rem 0 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.controls ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+#restart {
+  margin-top: auto;
+  padding: 0.8rem;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+#restart:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 6, 23, 0.65);
+  backdrop-filter: blur(2px);
+}
+
+.overlay p {
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .info-panel {
+    width: min(300px, 90vw);
+  }
+}
