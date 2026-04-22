@@ -58,8 +58,8 @@ body {
   border: 0;
   border-radius: 16px;
   padding: 0.95rem 0.45rem;
-  min-height: 56px;
-  font-size: 1.35rem;
+  min-height: 68px;
+  font-size: 1.6rem;
   font-weight: 800;
   color: #7a3600;
   background: linear-gradient(180deg, #ffe8b9, #ffd98d);
@@ -95,6 +95,16 @@ body {
   margin: 0.45rem 0 0;
   font-size: 1.3rem;
   font-weight: 700;
+}
+
+#mission-title {
+  font-size: 1rem;
+  color: #ffe8bf;
+}
+
+#mission-progress {
+  font-size: 0.95rem;
+  color: #ffd37b;
 }
 
 #next {
@@ -150,6 +160,23 @@ body {
   font-weight: 700;
 }
 
+.overlay-content {
+  display: grid;
+  gap: 0.8rem;
+  justify-items: center;
+}
+
+.resume-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.8rem 1.3rem;
+  background: linear-gradient(180deg, #ffe4a6, #ffc75a);
+  color: #643100;
+  font-size: 1rem;
+  font-weight: 900;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28);
+}
+
 .hidden {
   display: none;
 }
@@ -164,6 +191,12 @@ body {
     width: min(300px, 90vw);
   }
 
+  .mobile-controls {
+    display: grid;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
   .mobile-controls {
     display: grid;
   }

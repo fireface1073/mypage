@@ -35,6 +35,11 @@
           <p id="lines">0</p>
         </div>
         <div class="card">
+          <h2>오늘의 미션</h2>
+          <p id="mission-title">줄 2개 지우기</p>
+          <p id="mission-progress">0 / 2</p>
+        </div>
+        <div class="card">
           <h2>다음 블록</h2>
           <canvas id="next" width="120" height="120" aria-label="다음 블록 미리보기"></canvas>
         </div>
@@ -53,7 +58,10 @@
     </main>
 
     <div id="overlay" class="overlay hidden" role="status" aria-live="polite">
-      <p id="overlay-text"></p>
+      <div class="overlay-content">
+        <p id="overlay-text"></p>
+        <button id="resume" class="resume-btn hidden" type="button">▶ 이어하기</button>
+      </div>
     </div>
 
     <script src="script.js"></script>
