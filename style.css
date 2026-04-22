@@ -1,9 +1,10 @@
 :root {
-  --bg: #121826;
-  --panel: #1f2937;
-  --accent: #38bdf8;
-  --text: #e5e7eb;
-  --muted: #9ca3af;
+  --bg: #9c3f11;
+  --bg-soft: #c85a1c;
+  --panel: #7d2f10;
+  --accent: #ffd166;
+  --text: #fff3df;
+  --muted: #ffd8ad;
 }
 
 * {
@@ -15,7 +16,7 @@ body {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at top, #1d4e89, var(--bg));
+  background: radial-gradient(circle at top, #ffb347, var(--bg-soft) 40%, var(--bg));
   color: var(--text);
   font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
 }
@@ -24,8 +25,8 @@ body {
   display: flex;
   gap: 1.5rem;
   padding: 1.5rem;
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(82, 30, 8, 0.9);
+  border: 1px solid rgba(255, 226, 185, 0.35);
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
 }
@@ -41,9 +42,9 @@ body {
 }
 
 #board {
-  border: 3px solid #475569;
+  border: 3px solid #ffcc8a;
   border-radius: 8px;
-  background: #0f172a;
+  background: #3d1a09;
 }
 
 .mobile-controls {
@@ -55,13 +56,15 @@ body {
 
 .mobile-controls button {
   border: 0;
-  border-radius: 10px;
-  padding: 0.65rem 0.3rem;
-  font-size: 1.1rem;
+  border-radius: 16px;
+  padding: 0.95rem 0.45rem;
+  min-height: 68px;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: #fff8e6;
-  background: linear-gradient(180deg, #7c5f2d, #5d4720);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+  color: #7a3600;
+  background: linear-gradient(180deg, #ffe8b9, #ffd98d);
+  border: 2px solid #ffc66f;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
 }
 
 .mobile-controls button:active {
@@ -79,6 +82,7 @@ body {
   background: var(--panel);
   border-radius: 10px;
   padding: 0.8rem 1rem;
+  border: 1px solid rgba(255, 214, 153, 0.24);
 }
 
 .card h2 {
@@ -93,14 +97,24 @@ body {
   font-weight: 700;
 }
 
+#mission-title {
+  font-size: 1rem;
+  color: #ffe8bf;
+}
+
+#mission-progress {
+  font-size: 0.95rem;
+  color: #ffd37b;
+}
+
 #next {
   margin-top: 0.5rem;
   width: 100%;
   max-width: 120px;
   aspect-ratio: 1 / 1;
-  border: 2px solid #475569;
+  border: 2px solid #ffcc8a;
   border-radius: 8px;
-  background: #0f172a;
+  background: #3d1a09;
 }
 
 .controls ul {
@@ -116,7 +130,7 @@ body {
   border: 0;
   border-radius: 10px;
   background: var(--accent);
-  color: #0f172a;
+  color: #663000;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
@@ -140,10 +154,27 @@ body {
 .overlay p {
   padding: 1rem 1.5rem;
   border-radius: 12px;
-  background: rgba(15, 23, 42, 0.95);
-  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(79, 29, 8, 0.96);
+  border: 1px solid rgba(255, 214, 153, 0.38);
   font-size: 1.2rem;
   font-weight: 700;
+}
+
+.overlay-content {
+  display: grid;
+  gap: 0.8rem;
+  justify-items: center;
+}
+
+.resume-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.8rem 1.3rem;
+  background: linear-gradient(180deg, #ffe4a6, #ffc75a);
+  color: #643100;
+  font-size: 1rem;
+  font-weight: 900;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28);
 }
 
 .hidden {
@@ -160,6 +191,12 @@ body {
     width: min(300px, 90vw);
   }
 
+  .mobile-controls {
+    display: grid;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
   .mobile-controls {
     display: grid;
   }

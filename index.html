@@ -12,12 +12,12 @@
         <h1>갈릭톤 테트리스</h1>
         <canvas id="board" width="300" height="600" aria-label="갈릭톤 테트리스 게임 보드"></canvas>
         <div class="mobile-controls" aria-label="모바일 조작 버튼">
-          <button type="button" id="btn-left">←</button>
-          <button type="button" id="btn-right">→</button>
-          <button type="button" id="btn-rotate">⟳</button>
-          <button type="button" id="btn-down">↓</button>
-          <button type="button" id="btn-drop">⤓</button>
-          <button type="button" id="btn-pause">⏯</button>
+          <button type="button" id="btn-left" aria-label="왼쪽 이동">👈</button>
+          <button type="button" id="btn-right" aria-label="오른쪽 이동">👉</button>
+          <button type="button" id="btn-rotate" aria-label="회전">🔄</button>
+          <button type="button" id="btn-down" aria-label="내리기">👇</button>
+          <button type="button" id="btn-drop" aria-label="즉시 내리기">💨</button>
+          <button type="button" id="btn-pause" aria-label="일시정지">⏯</button>
         </div>
       </section>
 
@@ -33,6 +33,11 @@
         <div class="card">
           <h2>제거한 줄</h2>
           <p id="lines">0</p>
+        </div>
+        <div class="card">
+          <h2>오늘의 미션</h2>
+          <p id="mission-title">줄 2개 지우기</p>
+          <p id="mission-progress">0 / 2</p>
         </div>
         <div class="card">
           <h2>다음 블록</h2>
@@ -53,7 +58,10 @@
     </main>
 
     <div id="overlay" class="overlay hidden" role="status" aria-live="polite">
-      <p id="overlay-text"></p>
+      <div class="overlay-content">
+        <p id="overlay-text"></p>
+        <button id="resume" class="resume-btn hidden" type="button">▶ 이어하기</button>
+      </div>
     </div>
 
     <script src="script.js"></script>
