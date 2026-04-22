@@ -9,6 +9,12 @@ const linesEl = document.getElementById("lines");
 const restartButton = document.getElementById("restart");
 const overlay = document.getElementById("overlay");
 const overlayText = document.getElementById("overlay-text");
+const btnLeft = document.getElementById("btn-left");
+const btnRight = document.getElementById("btn-right");
+const btnRotate = document.getElementById("btn-rotate");
+const btnDown = document.getElementById("btn-down");
+const btnDrop = document.getElementById("btn-drop");
+const btnPause = document.getElementById("btn-pause");
 
 const COLS = 10;
 const ROWS = 20;
@@ -76,6 +82,7 @@ let lastTime;
 let isPaused;
 let isGameOver;
 let animationId;
+let clearAnimation;
 
 function createBoard() {
   return Array.from({ length: ROWS }, () => Array(COLS).fill(null));
@@ -112,6 +119,7 @@ function resetGame() {
   lastTime = 0;
   isPaused = false;
   isGameOver = false;
+  clearAnimation = null;
   current = getRandomPiece();
   nextPiece = getRandomPiece();
   hideOverlay();
@@ -143,27 +151,60 @@ function drawRoundedRect(targetCtx, x, y, width, height, radius) {
   targetCtx.closePath();
 }
 
-function drawGarlicCell(targetCtx, x, y, size, color) {
+function drawGarlicCell(targetCtx, x, y, size, color, peeled = false, popProgress = 0) {
   const px = x * size;
   const py = y * size;
-  const padding = Math.max(2, size * 0.1);
-  const tileSize = size - padding * 2;
-  const tileX = px + padding;
-  const tileY = py + padding;
-  const gradient = targetCtx.createLinearGradient(tileX, tileY, tileX, tileY + tileSize);
-  gradient.addColorStop(0, "#fffdf8");
-  gradient.addColorStop(1, color);
+  const padding = Math.max(1.5, size * 0.08);
+  const centerX = px + size / 2;
+  const centerY = py + size * 0.58;
+  const bulbOffset = size * 0.17;
+  const bulbRadius = size * 0.24 * (1 - popProgress * 0.32);
+  const stemWidth = size * 0.13 * (1 - popProgress * 0.45);
+  const stemHeight = size * 0.18 * (1 - popProgress * 0.4);
 
-  drawRoundedRect(targetCtx, tileX, tileY, tileSize, tileSize, tileSize * 0.2);
-  targetCtx.fillStyle = gradient;
+  targetCtx.save();
+  targetCtx.globalAlpha = 1 - popProgress * 0.8;
+
+  if (!peeled) {
+    targetCtx.fillStyle = "rgba(0, 0, 0, 0.2)";
+    targetCtx.beginPath();
+    targetCtx.ellipse(centerX, py + size * 0.9, size * 0.33, size * 0.09, 0, 0, Math.PI * 2);
+    targetCtx.fill();
+  }
+
+  targetCtx.fillStyle = peeled ? "#fff8eb" : color;
+  targetCtx.beginPath();
+  targetCtx.arc(centerX - bulbOffset, centerY, bulbRadius, 0, Math.PI * 2);
+  targetCtx.arc(centerX, centerY, bulbRadius * 1.08, 0, Math.PI * 2);
+  targetCtx.arc(centerX + bulbOffset, centerY, bulbRadius, 0, Math.PI * 2);
   targetCtx.fill();
-  targetCtx.strokeStyle = "rgba(140, 122, 92, 0.6)";
-  targetCtx.lineWidth = Math.max(1, size * 0.07);
+
+  targetCtx.strokeStyle = peeled ? "rgba(181, 156, 104, 0.45)" : "rgba(117, 97, 61, 0.55)";
+  targetCtx.lineWidth = Math.max(1, size * 0.06);
+  targetCtx.beginPath();
+  targetCtx.moveTo(centerX, py + size * 0.34);
+  targetCtx.lineTo(centerX, py + size * 0.74);
+  targetCtx.moveTo(centerX - size * 0.1, py + size * 0.46);
+  targetCtx.lineTo(centerX - size * 0.1, py + size * 0.74);
+  targetCtx.moveTo(centerX + size * 0.1, py + size * 0.46);
+  targetCtx.lineTo(centerX + size * 0.1, py + size * 0.74);
   targetCtx.stroke();
+
+  targetCtx.fillStyle = peeled ? "#f0d8a2" : "#bfa170";
+  drawRoundedRect(
+    targetCtx,
+    centerX - stemWidth / 2,
+    py + padding,
+    stemWidth,
+    stemHeight,
+    size * 0.06,
+  );
+  targetCtx.fill();
+  targetCtx.restore();
 }
 
-function drawCell(x, y, color) {
-  drawGarlicCell(ctx, x, y, BLOCK, color);
+function drawCell(x, y, type, peeled = false, popProgress = 0) {
+  drawGarlicCell(ctx, x, y, BLOCK, COLORS[type], peeled, popProgress);
 }
 
 function drawBoard() {
@@ -173,7 +214,15 @@ function drawBoard() {
     for (let x = 0; x < COLS; x += 1) {
       const type = board[y][x];
       if (type) {
-        drawCell(x, y, COLORS[type]);
+        let peeled = false;
+        let popProgress = 0;
+
+        if (clearAnimation?.rows.includes(y)) {
+          peeled = true;
+          popProgress = Math.min(1, clearAnimation.elapsed / clearAnimation.duration);
+        }
+
+        drawCell(x, y, type, peeled, popProgress);
       }
     }
   }
@@ -200,7 +249,7 @@ function drawPiece(piece) {
   piece.matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (!value) return;
-      drawCell(piece.x + x, piece.y + y, COLORS[piece.type]);
+      drawCell(piece.x + x, piece.y + y, piece.type);
     });
   });
 }
@@ -238,24 +287,43 @@ function mergePiece(piece) {
 }
 
 function clearLines() {
-  let cleared = 0;
+  const rows = [];
 
   for (let y = ROWS - 1; y >= 0; y -= 1) {
     if (board[y].every((cell) => cell !== null)) {
-      board.splice(y, 1);
-      board.unshift(Array(COLS).fill(null));
-      cleared += 1;
-      y += 1;
+      rows.push(y);
     }
   }
 
-  if (cleared > 0) {
-    lines += cleared;
-    score += SCORE_BY_LINES[cleared] * level;
-    level = Math.floor(lines / 10) + 1;
-    dropInterval = Math.max(120, 1000 - (level - 1) * 80);
-    updateHUD();
+  if (rows.length === 0) {
+    return false;
   }
+
+  clearAnimation = {
+    rows,
+    elapsed: 0,
+    duration: 220,
+  };
+  return true;
+}
+
+function finalizeLineClear() {
+  if (!clearAnimation) return;
+  const cleared = clearAnimation.rows.length;
+
+  const rowSet = new Set(clearAnimation.rows);
+  board = board.filter((_, idx) => !rowSet.has(idx));
+  while (board.length < ROWS) {
+    board.unshift(Array(COLS).fill(null));
+  }
+
+  lines += cleared;
+  score += SCORE_BY_LINES[cleared] * level;
+  level = Math.floor(lines / 10) + 1;
+  dropInterval = Math.max(120, 1000 - (level - 1) * 80);
+  updateHUD();
+  clearAnimation = null;
+  spawnPiece();
 }
 
 function spawnPiece() {
@@ -267,7 +335,7 @@ function spawnPiece() {
 }
 
 function hardDrop() {
-  if (isPaused || isGameOver) return;
+  if (isPaused || isGameOver || clearAnimation) return;
 
   while (!collides({ ...current, y: current.y + 1 })) {
     current.y += 1;
@@ -278,12 +346,14 @@ function hardDrop() {
 
 function lockPiece() {
   mergePiece(current);
-  clearLines();
-  spawnPiece();
+  const didClear = clearLines();
+  if (!didClear) {
+    spawnPiece();
+  }
 }
 
 function movePiece(direction) {
-  if (isPaused || isGameOver) return;
+  if (isPaused || isGameOver || clearAnimation) return;
 
   current.x += direction;
   if (collides(current)) {
@@ -292,7 +362,7 @@ function movePiece(direction) {
 }
 
 function dropPiece() {
-  if (isPaused || isGameOver) return;
+  if (isPaused || isGameOver || clearAnimation) return;
 
   current.y += 1;
   if (collides(current)) {
@@ -316,7 +386,7 @@ function rotateMatrix(matrix) {
 }
 
 function rotatePiece() {
-  if (isPaused || isGameOver) return;
+  if (isPaused || isGameOver || clearAnimation) return;
 
   const rotated = rotateMatrix(current.matrix);
   const originalX = current.x;
@@ -372,9 +442,16 @@ function update(time = 0) {
   lastTime = time;
 
   if (!isPaused && !isGameOver) {
-    dropCounter += delta;
-    if (dropCounter >= dropInterval) {
-      dropPiece();
+    if (clearAnimation) {
+      clearAnimation.elapsed += delta;
+      if (clearAnimation.elapsed >= clearAnimation.duration) {
+        finalizeLineClear();
+      }
+    } else {
+      dropCounter += delta;
+      if (dropCounter >= dropInterval) {
+        dropPiece();
+      }
     }
   }
 
@@ -412,6 +489,40 @@ window.addEventListener("keydown", (event) => {
       break;
   }
 });
+
+function bindControl(button, action, repeat = false) {
+  if (!button) return;
+  let timer = null;
+
+  const start = (event) => {
+    event.preventDefault();
+    action();
+    if (repeat) {
+      timer = window.setInterval(action, 120);
+    }
+  };
+
+  const stop = () => {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  };
+
+  button.addEventListener("mousedown", start);
+  button.addEventListener("mouseup", stop);
+  button.addEventListener("mouseleave", stop);
+  button.addEventListener("touchstart", start, { passive: false });
+  button.addEventListener("touchend", stop);
+  button.addEventListener("touchcancel", stop);
+}
+
+bindControl(btnLeft, () => movePiece(-1), true);
+bindControl(btnRight, () => movePiece(1), true);
+bindControl(btnRotate, rotatePiece);
+bindControl(btnDown, dropPiece, true);
+bindControl(btnDrop, hardDrop);
+bindControl(btnPause, togglePause);
 
 restartButton.addEventListener("click", resetGame);
 
