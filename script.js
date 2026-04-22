@@ -1,7 +1,10 @@
 const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
+ codex/create-tetris-game-with-html-css-javascript-hu637t
 const nextCanvas = document.getElementById("next");
 const nextCtx = nextCanvas.getContext("2d");
+
+ main
 
 const scoreEl = document.getElementById("score");
 const levelEl = document.getElementById("level");
@@ -15,6 +18,7 @@ const ROWS = 20;
 const BLOCK = 30;
 
 const COLORS = {
+ codex/create-tetris-game-with-html-css-javascript-hu637t
   I: "#f9f4e5",
   J: "#f2ead5",
   L: "#efe4cb",
@@ -22,6 +26,15 @@ const COLORS = {
   S: "#ece3d2",
   T: "#f6eedf",
   Z: "#f0e6d0",
+
+  I: "#22d3ee",
+  J: "#60a5fa",
+  L: "#f59e0b",
+  O: "#facc15",
+  S: "#4ade80",
+  T: "#c084fc",
+  Z: "#f87171",
+ main
 };
 
 const SHAPES = {
@@ -66,7 +79,10 @@ const SCORE_BY_LINES = [0, 100, 300, 500, 800];
 
 let board;
 let current;
+ codex/create-tetris-game-with-html-css-javascript-hu637t
 let nextPiece;
+
+ main
 let score;
 let lines;
 let level;
@@ -85,6 +101,7 @@ function getRandomPiece() {
   const types = Object.keys(SHAPES);
   const type = types[Math.floor(Math.random() * types.length)];
   const matrix = SHAPES[type].map((row) => [...row]);
+ codex/create-tetris-game-with-html-css-javascript-hu637t
   return spawnPosition({
     type,
     matrix,
@@ -99,6 +116,13 @@ function spawnPosition(piece) {
   target.y = 0;
   return {
     ...target,
+
+  return {
+    type,
+    matrix,
+    x: Math.floor(COLS / 2) - Math.ceil(matrix[0].length / 2),
+    y: 0,
+ main
   };
 }
 
@@ -113,7 +137,10 @@ function resetGame() {
   isPaused = false;
   isGameOver = false;
   current = getRandomPiece();
+ codex/create-tetris-game-with-html-css-javascript-hu637t
   nextPiece = getRandomPiece();
+
+ main
   hideOverlay();
   updateHUD();
 
@@ -128,6 +155,7 @@ function resetGame() {
   animationId = requestAnimationFrame(update);
 }
 
+ codex/create-tetris-game-with-html-css-javascript-hu637t
 function drawRoundedRect(targetCtx, x, y, width, height, radius) {
   const r = Math.min(radius, width / 2, height / 2);
   targetCtx.beginPath();
@@ -164,6 +192,13 @@ function drawGarlicCell(targetCtx, x, y, size, color) {
 
 function drawCell(x, y, color) {
   drawGarlicCell(ctx, x, y, BLOCK, color);
+=======
+function drawCell(x, y, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x * BLOCK, y * BLOCK, BLOCK, BLOCK);
+  ctx.strokeStyle = "rgba(15, 23, 42, 0.6)";
+  ctx.strokeRect(x * BLOCK, y * BLOCK, BLOCK, BLOCK);
+ main
 }
 
 function drawBoard() {
@@ -179,6 +214,7 @@ function drawBoard() {
   }
 }
 
+ codex/create-tetris-game-with-html-css-javascript-hu637t
 function drawNextPiece() {
   nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
   const matrix = nextPiece.matrix;
@@ -196,6 +232,8 @@ function drawNextPiece() {
   });
 }
 
+
+ main
 function drawPiece(piece) {
   piece.matrix.forEach((row, y) => {
     row.forEach((value, x) => {
@@ -259,8 +297,12 @@ function clearLines() {
 }
 
 function spawnPiece() {
+ codex/create-tetris-game-with-html-css-javascript-hu637t
   current = spawnPosition(nextPiece);
   nextPiece = getRandomPiece();
+
+  current = getRandomPiece();
+ main
   if (collides(current)) {
     endGame();
   }
@@ -379,7 +421,10 @@ function update(time = 0) {
   }
 
   drawBoard();
+ codex/create-tetris-game-with-html-css-javascript-hu637t
   drawNextPiece();
+
+ main
   if (!isGameOver) {
     drawPiece(current);
   }
