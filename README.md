@@ -86,6 +86,24 @@ npm run dev
 
 ---
 
+## 🔗 요청하신 저장소로 업로드 (fireface1073/simple-studio-task-dashboard)
+
+아래 명령을 프로젝트 루트에서 실행하면 됩니다.
+
+```bash
+git init
+git add .
+git commit -m "feat: initial studio scheduler dashboard"
+
+git branch -M main
+git remote add origin https://github.com/fireface1073/simple-studio-task-dashboard.git
+git push -u origin main
+```
+
+> 이미 원격 저장소가 연결되어 있으면 `git remote set-url origin https://github.com/fireface1073/simple-studio-task-dashboard.git`를 사용하세요.
+
+---
+
 ## 4) GitHub에 새 저장소로 올리는 방법
 
 예시 저장소 이름: `studio-scheduler-dashboard`
