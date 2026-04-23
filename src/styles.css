@@ -1,0 +1,183 @@
+:root {
+  color-scheme: dark;
+  font-family: 'Pretendard', 'Noto Sans KR', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0f1117;
+  color: #ebeff5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0f1117;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.app-header h1 {
+  margin: 0 0 8px;
+}
+
+.app-header p {
+  margin: 0;
+  color: #9da7ba;
+}
+
+.layout {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.card {
+  background: #161b24;
+  border: 1px solid #2c3342;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.project-form label,
+.project-form input,
+.project-form select,
+.project-form textarea {
+  display: block;
+  width: 100%;
+}
+
+.project-form label {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+input,
+select,
+textarea {
+  margin-top: 6px;
+  background: #0f141d;
+  border: 1px solid #30394a;
+  color: #ebeff5;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.row-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: 1px solid #3a4354;
+  background: #202838;
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #2d6bff;
+  border-color: #2d6bff;
+}
+
+.btn-danger {
+  background: #7f1d1d;
+  border-color: #7f1d1d;
+}
+
+.project-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.project-item {
+  background: #0f141d;
+  border: 1px solid #2c3342;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.project-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.project-top h4 {
+  margin: 0;
+}
+
+.meta {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #9da7ba;
+  flex-wrap: wrap;
+}
+
+.status-pill {
+  border: none;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: #334155;
+  color: #fff;
+  cursor: pointer;
+}
+
+.memo {
+  margin: 8px 0;
+  color: #c8d0e0;
+  white-space: pre-wrap;
+}
+
+.priority {
+  font-size: 0.8rem;
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+
+.priority-높음 {
+  background: #7f1d1d;
+}
+
+.priority-보통 {
+  background: #1e3a8a;
+}
+
+.priority-낮음 {
+  background: #365314;
+}
+
+.empty {
+  color: #9da7ba;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(340px, 420px) 1fr;
+    align-items: start;
+  }
+
+  .right-col {
+    display: grid;
+    gap: 12px;
+  }
+}
